@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Javascript Blackjack</h1>
+
+<script>
+//To do:
+//1. Allow user to determine if Ace is 1 or 11. (Check if user will bust on Ace being 11)
+//2. Hit function(Player 1 then Player 2) and add more cards in hands (Array of cards)
+//3. Dealer hand
+//4. Set up auto hit/stand for Dealer
+//5. Remove possibility of duplicate cards
+
+
+//Card Constructor
+function Card(s,n) {
+        var number = n;
+        var suit = s;
+    //getters
+		//Gets Number of Card also Returns Special Cards
+        this.getNumber = function(){
+                switch(number)
+                {
+                	case 1:
+                		return "Ace";
+                	case 11:
+                		return "Jack";
+                	case 12:
+                		return "Queen";
+                	case 13:
+                		return "King";
+                	default:
+                		return number;
+                }
+        };
+		//Returns Suit of Card
+        this.getSuit = function(){
+        	var SuitsArray= new Array("Hearts","Diamonds","Clubs","Spades");
+              return SuitsArray[suit-1];
+               
+        };
+		//Returns Blackjack Value of Cards
+        this.getValue=function()
+        {
+        	if(number>=11)
+        	{
+        		return 10;
+        	}
+        	else if(number==1)
+        	{
+        		return 11;
+        	}
+        	else 
+        	{
+        		return number;
+        	}
+        };
+}
+//Hand Constructor
+function Hand(){
+	var card1=deal();
+	var card2=deal();
+	//Generates Score of Hand
+	this.score=function()
+	{
+		return card1.getValue()+card2.getValue();
+	};
+	//Displays Cards In Hand
+	this.displayCards=function(){
+		var x= card1.getNumber() +" of "+card1.getSuit();
+		var y=  card2.getNumber() +" of "+card2.getSuit();
+		return x+" and "+ y;
+	};
+}
+//Deal Function
+//randNum returns 1 through 13 for card number
+//randSuit returns 1 through 4 for suits
+var deal = function(){
+        var randNum = Math.floor(Math.random() * 13+1);
+        var randSuit = Math.floor(Math.random() * 4+1);
+        //the card
+        return new Card(randSuit, randNum);
+};
+
+
+
+
+var myHand = new Hand(); //Creates myHand object
+var yourHand = new Hand(); //Creates yourHand object
+document.write("My Cards are: "+myHand.displayCards()); //Outputs Cards in My Hand 
+document.write("<br>");
+document.write("Your Cards are: "+yourHand.displayCards()); //Outputs Cards in Your Hand
+document.write("<br>");
+document.write("I scored a "+myHand.score()+" and you scored a "+yourHand.score());//Displays Scores of Hands
+document.write("<br>");
+//Displays Results of Game
+if(yourHand.score() > myHand.score())
+document.write("you win!");
+else if(yourHand.score() < myHand.score())
+document.write("I win!");
+else
+document.write("We tied!");
+
+</script>
+
+</body>
+</html> 
